@@ -1,0 +1,25 @@
+module UpDownCounter_tb;
+    reg clk;
+    reg rst_n;
+    reg dir;
+    wire [3:0] q;
+    UpDownCounter uut (
+        .clk(clk),
+        .rst_n(rst_n),
+        .dir(dir),
+        .q(q)
+    );
+    initial clk = 0;
+    always #5 clk = ~clk;
+    initial begin
+        $dumpfile("updowncounter_alt.vcd");
+        $dumpvars(0, UpDownCounter_tb);
+        $monitor("Time: %0t | rst_n=%b | dir=%b | q=%d", $time, rst_n, dir, q);
+        rst_n = 0;
+        dir = 1;  
+        #12 rst_n = 1;
+        #50 dir = 0; 
+        #50 $finish;
+    end
+
+endmodule
